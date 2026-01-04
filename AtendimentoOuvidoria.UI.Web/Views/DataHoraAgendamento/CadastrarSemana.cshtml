@@ -1,0 +1,81 @@
+﻿@using US.Intranet.AtendimentoOuvidoria.UI.Web.Models
+@model SemanaAdministrativaViewMOD
+
+@{
+    Layout = "~/Views/Shared/_Layout.cshtml";
+    ViewData["Title"] = "Agenda - Cadastrar Semana Administrativa";
+}
+
+<div class="container mt-4">
+    <div class="d-flex align-items-center mb-4">
+        <i class="fas fa-calendar-plus fa-2x text-primary me-2"></i>
+        <h2 class="mb-0">Cadastrar Semana Administrativa</h2>
+    </div>
+    @using (Html.BeginForm("CadastrarSemana", "DataHoraAgendamento", FormMethod.Post))
+    {
+        <div class="card shadow-sm mb-4">
+            <div class="card-body">
+                <div class="row g-3">
+                    <div class="col-md-4">
+                        @Html.LabelFor(m => m.DataInicioSemana, new { @class = "form-label" })
+                        @Html.TextBoxFor(m => m.DataInicioSemana, new { @class = "form-control", type = "date" })
+                        @Html.ValidationMessageFor(m => m.DataInicioSemana, "", new { @class = "text-danger" })
+                    </div>
+                    <div class="col-md-8">
+                        <label class="form-label">Dias da Semana</label>
+                        <div class="row">
+                            <div class="col-6 col-md-3">
+                                <div class="form-check">
+                                    @Html.CheckBoxFor(m => m.Segunda, new { @class = "form-check-input", id = "segunda" })
+                                    <label class="form-check-label" for="segunda">Segunda-feira</label>
+                                </div>
+                            </div>
+                            <div class="col-6 col-md-2 text-start">
+                                <div class="form-check">
+                                    @Html.CheckBoxFor(m => m.Terca, new { @class = "form-check-input", id = "terca" })
+                                    <label class="form-check-label" for="terca">Terça-feira</label>
+                                </div>
+                            </div>
+                            <div class="col-6 col-md-2 text-start">
+                                <div class="form-check">
+                                    @Html.CheckBoxFor(m => m.Quarta, new { @class = "form-check-input", id = "quarta" })
+                                    <label class="form-check-label" for="quarta">Quarta-feira</label>
+                                </div>
+                            </div>
+                            <div class="col-6 col-md-2 text-start">
+                                <div class="form-check">
+                                    @Html.CheckBoxFor(m => m.Quinta, new { @class = "form-check-input", id = "quinta" })
+                                    <label class="form-check-label" for="quinta">Quinta-feira</label>
+                                </div>
+                            </div>
+                            <div class="col-6 col-md-2 text-start">
+                                <div class="form-check">
+                                    @Html.CheckBoxFor(m => m.Sexta, new { @class = "form-check-input", id = "sexta" })
+                                    <label class="form-check-label" for="sexta">Sexta-feira</label>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="row d-flex justify-content-center py-3">
+                        <div class="col-8 text-center">
+                            <div class="alert alert-warning text-dark mt-3">
+                                <strong>Horários padrão:</strong>
+                                Segundas à Quintas: das 09h às 17h e às Sextas-feira: das 08h às 16h
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-6 text-start">
+                        <a href="@Url.Action("Semana", "DataHoraAgendamento")" class="btn btn-outline-success">
+                            <i class="fas fa-chevron-left me-1"></i> Voltar
+                        </a>
+                    </div>
+                    <div class="col-6 text-end">
+                        <button type="submit" class="btn btn-success">
+                            <i class="fas fa-save me-1"></i> Cadastrar Semana
+                        </button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    }
+</div>

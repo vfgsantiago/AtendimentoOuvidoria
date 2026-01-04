@@ -1,0 +1,45 @@
+﻿<!-- Modal de Confirmação de Ativação -->
+<div class="modal fade" id="modalConfirmarAtivacao" tabindex="-1" aria-labelledby="modalConfirmarAtivacaoLabel" aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered">
+        <div class="modal-content border-warning">
+            <div class="modal-header bg-yellow text-dark">
+                <h5 class="modal-title" id="modalConfirmarAtivacaoLabel">
+                    <i class="fas fa-exclamation-triangle me-2"></i>Confirmação de Ativação
+                </h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Fechar"></button>
+            </div>
+            <div class="modal-body">
+                Este horário possui um agendamento. Tem certeza que deseja ativá-lo?
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-outline-secondary" data-bs-dismiss="modal">Cancelar</button>
+                <button type="button" class="btn bg-yellow text-white" id="btnConfirmarAtivacao">Sim, ativar</button>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- Modal de Confirmação de Inativação -->
+<div class="modal fade" id="modalConfirmarInativacao" tabindex="-1" aria-labelledby="modalConfirmarInativacaoLabel" aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered">
+        <div class="modal-content border-red">
+            <div class="modal-header bg-red text-white">
+                <h5 class="modal-title" id="modalConfirmarInativacaoLabel">
+                    <i class="fas fa-exclamation-circle me-2"></i>Confirmar Inativação
+                </h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Fechar"></button>
+            </div>
+            <div class="modal-body">
+                <p>Deseja realmente inativar este horário?</p>
+                <div class="mb-3">
+                    <label for="motivoInativacao" class="form-label">Motivo da inativação:</label>
+                    <textarea class="form-control" id="motivoInativacao" rows="3" placeholder="Descreva o motivo..." required></textarea>
+                </div>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-outline-secondary" data-bs-dismiss="modal">Cancelar</button>
+                <button type="button" class="btn bg-red text-white" id="btnConfirmarInativacao">Sim, inativar</button>
+            </div>
+        </div>
+    </div>
+</div>

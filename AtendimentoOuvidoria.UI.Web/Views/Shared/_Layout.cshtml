@@ -1,0 +1,48 @@
+﻿<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Ouvidoria</title>
+    <partial name="_PartialStyles" />
+    <script src="~/lib/jquery/dist/jquery.min.js"></script>
+    <script src="~/lib/admin-lte/plugins/jquery/jquery.min.js"></script>
+</head>
+<body class="layout-fixed sidebar-expand-lg sidebar-mini bg-body app-loaded sidebar-collapse" data-bs-theme="light">
+    <partial name="_PartialToast" />
+    <div class="app-wrapper">
+        @*loader para exibir enquanto carrega algum conteúdo*@ 
+        <div class="loader" style="display: none;">
+            <span class="fa fa-spinner fa-pulse fa-3x fa-fw text-primary"></span>
+        </div>
+        <partial name="_PartialMenuTop" />
+        <partial name="_PartialMeusAcessos" />
+        <main class="app-main bg-light-gray">
+            <div class="app-content-header">
+                <div class="container-fluid">
+                    <div class="row">
+                        <div class="col-6">
+                            <hgroup>
+                                <h1> @ViewBag.MainTitle</h1>
+                                <h6 class="text-gray-dark">@ViewBag.SubTitle</h6>
+                            </hgroup>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="app-content">
+                <div class="container-fluid">
+                    <partial name="_PartialMensagem" />
+                    @RenderBody()
+                </div>
+            </div>
+            <div class="top-page" id="scrollTop" style="display: none;">
+                <span class="fas fa-arrow-up text-dark opacity-50" data-toggle="tooltip" data-placement="left"></span>
+            </div>
+        </main>
+        <partial name="_PartialFooter" />
+    </div>
+    <partial name="_PartialScripts" />
+    @await RenderSectionAsync("Scripts", required: false)
+</body>
+</html>

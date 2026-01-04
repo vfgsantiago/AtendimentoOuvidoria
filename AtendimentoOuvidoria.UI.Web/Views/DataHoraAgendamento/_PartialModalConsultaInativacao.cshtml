@@ -1,0 +1,44 @@
+﻿@model DataHoraAgendamentoMOD
+
+<div class="modal fade" id="modalMotivo_@Model.CdDataHora" tabindex="-1" aria-labelledby="modalMotivoLabel_@Model.CdDataHora" aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered modal-dialog-scrollable">
+        <div class="modal-content shadow-lg border-0 rounded-4">
+            <div class="modal-header bg-red border-bottom-0 rounded-top">
+                <h5 class="modal-title d-flex align-items-center text-white" id="modalMotivoLabel_@Model.CdDataHora">
+                    <i class="fas fa-exclamation-circle me-2 fs-4"></i> Detalhes da Inativação
+                </h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Fechar"></button>
+            </div>
+            <div class="modal-body text-start text-secondary px-4 py-3">
+                <div class="d-flex align-items-start mb-3">
+                    <i class="fas fa-calendar-alt text-primary me-2 mt-1"></i>
+                    <div class="fs-6">
+                        <div class="fw-bold text-dark pb-2">Data da alteração</div>
+                        <div class="small text-dark">@Model.DtAlteracao.ToString("dd/MM/yyyy HH:mm")</div>
+                    </div>
+                </div>
+                <div class="d-flex align-items-start mb-3">
+                    <i class="fas fa-user-edit text-success me-2 mt-1"></i>
+                    <div class="fs-6">
+                        <div class="fw-bold text-dark pb-2">Usuário que alterou</div>
+                        <div class="small text-dark">@Model.NoUsuario</div>
+                    </div>
+                </div>
+                <div class="d-flex align-items-start">
+                    <i class="fas fa-comment-dots text-warning me-2 mt-1"></i>
+                    <div class="fs-6">
+                        <div class="fw-bold text-dark pb-2">Motivo</div>
+                        <div class="small text-dark text-break">
+                            @Html.Raw(Model.TxMotivoInativacao?.Replace("\r\n", "<br />").Replace("\n", "<br />"))
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="modal-footer border-0 justify-content-center pb-4">
+                <button type="button" class="btn btn-outline-dark btn-sm px-4" data-bs-dismiss="modal">
+                    <i class="fas fa-times me-1"></i> Fechar
+                </button>
+            </div>
+        </div>
+    </div>
+</div>

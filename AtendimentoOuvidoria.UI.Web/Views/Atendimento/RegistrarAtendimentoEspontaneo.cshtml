@@ -1,0 +1,215 @@
+﻿@model AtendimentoEspontaneoViewMOD
+@{
+    ViewData["Title"] = "Registrar Atendimento Espontâneo";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+    var viewDataHumor = new ViewDataDictionary(ViewData) { ["listaHumor"] = ViewBag.listaHumor };
+    var listaHumor = ViewData["listaHumor"] as List<US.Intranet.AtendimentoOuvidoria.Model.HumorAtendimentoMOD>;
+}
+
+<div class="container mt-4">
+    <div class="d-flex align-items-center mb-4">
+        <i class="fas fa-user-plus fa-2x text-secondary me-2"></i>
+        <h2 class="mb-0">Registrar Atendimento Espontâneo</h2>
+    </div>
+    @using (Html.BeginForm("RegistrarAtendimentoEspontaneo", "Atendimento", FormMethod.Post))
+    {
+        @Html.HiddenFor(x => x.Beneficiario.CdBeneficiario)
+        <ul class="nav nav-pills justify-content-center step-indicator mb-4">
+            <li class="nav-item mx-2">
+                <span class="nav-link bg-success" id="step1-indicator">1. Beneficiário</span>
+            </li>
+            <li class="nav-item">
+                <span class="nav-link bg-light" id="step2-indicator">2. Atendimento</span>
+            </li>
+        </ul>
+        <div id="formEtapa1" class="card shadow-sm">
+            <div class="card-header bg-success text-white">
+                <i class="fas fa-user me-2"></i> Informações do Beneficiário
+            </div>
+            <div class="card-body">
+                <div class="row">
+                    <div class=" col-12 mb-3">
+                        <label class="form-label fw-semibold">Beneficiário de Intercâmbio?</label>
+                        <div class="d-flex gap-2">
+                            <input type="radio" class="btn-check" name="Beneficiario.SnIntercambio" id="intercambio-nao" value="N" checked>
+                            <label class="btn btn-sm btn-outline-danger rounded-pill" for="intercambio-nao">Não</label>
+                            <input type="radio" class="btn-check" name="Beneficiario.SnIntercambio" id="intercambio-sim" value="S">
+                            <label class="btn btn-sm btn-outline-success rounded-pill" for="intercambio-sim">Sim</label>
+                        </div>
+                    </div>
+                    <div class="col-8 mb-3">
+                        @Html.LabelFor(x => x.Beneficiario.NoBeneficiario, new { @class = "form-label" })
+                        @Html.TextBoxFor(x => x.Beneficiario.NoBeneficiario, new { @class = "form-control", required = "required", placeholder = "Digite o nome e sobrenome" })
+                    </div>
+                    <div class="col-4 mb-3">
+                        @Html.LabelFor(x => x.Beneficiario.NrCpf, new { @class = "form-label" })
+                        @Html.TextBoxFor(x => x.Beneficiario.NrCpf, new { @class = "form-control cpf", required = "required", placeholder = "Informe o CPF", maxlength = "21", autocomplete = "off" })
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col-8 mb-3">
+                        @Html.LabelFor(x => x.Beneficiario.TxEmail, new { @class = "form-label" })
+                        @Html.TextBoxFor(x => x.Beneficiario.TxEmail, new { @class = "form-control", required = "required", placeholder = "Digite o e-mail" })
+                    </div>
+                    <div class="col-4 mb-3">
+                        @Html.LabelFor(x => x.Beneficiario.TxTelefone, new { @class = "form-label" })
+                        @Html.TextBoxFor(x => x.Beneficiario.TxTelefone, new { @class = "form-control telefone-celular", required = "required", placeholder = "Digite o telefone" })
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col-12">
+                        @Html.Label("Beneficiario.TxMotivoAgendamento", "Motivo do Atendimento", new { @class = "form-label" })
+                        @Html.TextAreaFor(x => x.Beneficiario.TxMotivoAgendamento, new { @class = "form-control", rows = 5, placeholder = "Qual o motivo do atendimento?", required = "required" })
+                    </div>
+                </div>
+            </div>
+            <div class="card-footer">
+                <div class="row">
+                    <div class="col-6 text-start">
+                        <a href="@Url.Action("Index", "Home")" class="btn btn-outline-secondary">
+                            <i class="fas fa-house-user me-1"></i> Home
+                        </a>
+                    </div>
+                    <div class="col-6 text-end">
+                        <button type="button" class="btn btn-success" id="btnProximo">
+                            Próximo <i class="fas fa-arrow-right ms-1"></i>
+                        </button>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div id="formEtapa2" class="d-none mt-4">
+            <div class="card shadow-sm mb-4">
+                <div class="card-header bg-success text-white">
+                    <i class="fas fa-smile me-2"></i> Humor do Beneficiário
+                </div>
+                <div class="card-body">
+                    <div class="row mb-3">
+                        @foreach (var humor in listaHumor)
+                        {
+                            <div class="col-3">
+                                <input type="radio" class="btn-check" name="Atendimento.CdHumor" id="humor-@humor.CdHumor" value="@humor.CdHumor" autocomplete="off" required>
+                                <label class="btn humor-card w-100 text-start border shadow-sm rounded" for="humor-@humor.CdHumor">
+                                    <div class="d-flex align-items-center p-2">
+                                        <i class="fas @humor.TxIcone fs-3 me-3 @humor.TxCor"></i>
+                                        <span class="fw-semibold @humor.TxCor">@humor.TxHumor</span>
+                                    </div>
+                                </label>
+                            </div>
+                        }
+                    </div>
+                    <div class="mb-3">
+                        @Html.LabelFor(x => x.Atendimento.TxMotivoHumor, new { @class = "form-label fw-semibold" })
+                        @Html.TextAreaFor(x => x.Atendimento.TxMotivoHumor, new { @class = "form-control", placeholder = "Descreva o motivo do humor", row = 3, maxlength = 990, required = "required"})
+                    </div>
+                </div>
+            </div>
+            <div class="card shadow-sm mb-4">
+                <div class="card-header bg-success text-white">
+                    <i class="fas fa-comment-dots me-2"></i> Atendimento
+                </div>
+                <div class="card-body">
+                    <div class="mb-3">
+                        @Html.LabelFor(x => x.Atendimento.TxDescricaoAtendimento, new { @class = "form-label fw-semibold" })
+                        @Html.TextAreaFor(x => x.Atendimento.TxDescricaoAtendimento, new { @class = "form-control", rows = 5, required = "required", placeholder = "Descreva o atendimento", maxlength = 3900 })
+                    </div>
+                    <div class="row">
+                        @foreach (var campo in new[] {
+                    new { Id = "SnPossivelProcesso", Label = "Possível Processo?" },
+                    new { Id = "SnPossivelChurn", Label = "Possível Churn?" },
+                    new { Id = "SnReversaoExperiencia", Label = "Reversão de Experiência?" }
+                    })
+                        {
+                            <div class="col-md-4 mb-3">
+                                <label class="form-label fw-semibold">@campo.Label</label>
+                                <div class="d-flex gap-2">
+                                    <input type="radio" class="btn-check" name="Atendimento.@campo.Id" id="@campo.Id-nao" value="N" checked>
+                                    <label class="btn btn-sm btn-outline-danger rounded-pill" for="@campo.Id-nao">Não</label>
+                                    <input type="radio" class="btn-check" name="Atendimento.@campo.Id" id="@campo.Id-sim" value="S">
+                                    <label class="btn btn-sm btn-outline-success rounded-pill" for="@campo.Id-sim">Sim</label>
+                                </div>
+                            </div>
+                        }
+                    </div>
+                </div>
+            </div>
+            <div class="card shadow-sm mb-4">
+                <div class="card-header bg-yellow text-white">
+                    <i class="fas fa-exclamation-circle me-2"></i> Pendências
+                </div>
+                <div class="card-body">
+                    <div class="row">
+                        <div class=" col-2 mb-3">
+                            <label class="form-label fw-semibold">Existe Pendência?</label>
+                            <div class="d-flex gap-2">
+                                <input type="radio" class="btn-check" name="Atendimento.SnExistePendencia" id="pendencia-nao" value="N" checked>
+                                <label class="btn btn-sm btn-outline-danger rounded-pill" for="pendencia-nao">Não</label>
+                                <input type="radio" class="btn-check" name="Atendimento.SnExistePendencia" id="pendencia-sim" value="S">
+                                <label class="btn btn-sm btn-outline-success rounded-pill" for="pendencia-sim">Sim</label>
+                            </div>
+                        </div>
+                        <div class="col-10 mb-3">
+                            @Html.LabelFor(x => x.Atendimento.TxDescricaoPendencia, new { @class = "form-label fw-semibold" })
+                            @Html.TextAreaFor(x => x.Atendimento.TxDescricaoPendencia, new { @class = "form-control", rows = 4, placeholder = "Descreva a pendência", maxlength = 3900 })
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-6 text-start">
+                    <button type="button" class="btn btn-outline-secondary" id="btnVoltar">
+                        <i class="fas fa-arrow-left me-1"></i> Voltar
+                    </button>
+                </div>
+                <div class="col-6 text-end">
+                    <button type="submit" class="btn btn-success">
+                        <i class="fas fa-save me-1"></i> Registrar Atendimento
+                    </button>
+                </div>
+            </div>
+        </div>
+    }
+</div>
+
+<style>
+    .btn-check:checked + .btn-outline-success {
+        background-color: #d1e7dd;
+        border-color: #198754;
+        color: #198754;
+        font-weight: bold;
+    }
+
+    .btn-check:checked + .btn-outline-danger {
+        background-color: #f8d7da;
+        border-color: #dc3545;
+        color: #dc3545;
+        font-weight: bold;
+    }
+
+    .btn-check:checked + .humor-card {
+        border-width: 2px;
+        box-shadow: 0 0 0 0.2rem rgba(0, 123, 255, .25);
+        background-color: lightgray;
+    }
+</style>
+
+<script>
+    $(document).ready(function () {
+        $('#btnProximo').click(function () {
+            $('#formEtapa1').fadeOut(300, function () {
+                $('#formEtapa2').fadeIn(300).removeClass('d-none');
+                $('#step1-indicator').removeClass('bg-success').addClass('bg-light');
+                $('#step2-indicator').removeClass('bg-light').addClass('bg-success');
+            });
+        });
+
+        $('#btnVoltar').click(function () {
+            $('#formEtapa2').fadeOut(300, function () {
+                $('#formEtapa1').fadeIn(300).removeClass('d-none');
+                $('#step2-indicator').removeClass('bg-success').addClass('bg-light');
+                $('#step1-indicator').removeClass('bg-light').addClass('bg-success');
+            });
+        });
+    });
+</script>
+

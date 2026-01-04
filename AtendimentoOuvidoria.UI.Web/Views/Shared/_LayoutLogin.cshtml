@@ -1,0 +1,83 @@
+﻿<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>@ViewData["Title"] - Atendimento Ouvidoria</title>
+    <link rel="stylesheet" href="~/lib/bootstrap/dist/css/bootstrap.min.css" asp-append-version="true" />
+    <link rel="stylesheet" href="~/css/site.css" asp-append-version="true" />
+    <link href="~/lib/admin-lte/dist/css/adminlte.css" rel="stylesheet" />
+    <link href="~/lib/admin-lte/dist/css/adminlte.min.css" rel="stylesheet" />
+    <link href="~/lib/admin-lte/dist/css/adminlte.min.css" rel="stylesheet" />
+    <link href="~/lib/admin-lte/plugins/fontawesome-free/css/all.min.css" rel="stylesheet" />
+    <link rel="stylesheet" href="lib/toastr.js/toastr.min.css" />
+    <link href="~/css/animate.min.css" rel="stylesheet" />
+    <script src="~/lib/admin-lte/plugins/jquery/jquery.js"></script>
+</head>
+<body class="login-page bg-success">
+    @*loader para exibir enquanto carrega algum conteúdo*@
+    <div class="loader" style="display:none;">
+        <span class="fa fa-spinner fa-pulse fa-3x fa-fw text-purple"></span>
+    </div>
+    <div class="wrapper">
+        <div class="content-wrapper ml-0 pl-0">
+            <section class="content">
+                <div class="container-fluid">
+                    @RenderBody()
+                </div>
+            </section>
+        </div>
+    </div>
+    <script src="~/lib/jquery-validation/dist/jquery.validate.min.js"></script>
+    <script src="~/lib/jquery-validation-unobtrusive/jquery.validate.unobtrusive.min.js"></script>
+    <script src="~/lib/bootstrap/dist/js/bootstrap.min.js"></script>
+    <script>
+        $('input').attr('autocomplete', 'off');
+                $(function () {
+            $('form').on('submit', function () {
+                if ($(this).valid()) {
+                    $('.loader').show();
+                }
+            });
+
+            $('input').attr('autocomplete', 'off');
+            $('.select2').select2();
+
+            //mascaras
+            $('.telefone-celular').inputmask('(99) 9999-99999')
+            $('.cpf').inputmask('999.999.999-99')
+            $('.cep').inputmask('99.999-999')
+
+            $(window).scroll(function () {
+                //ícone do canto direito
+                if ($(this).scrollTop() != 0) {
+                    $('.top-page').fadeIn();
+                } else {
+                    $('.top-page').fadeOut();
+                }
+                //cor de fundo do topo
+                var topo = $('#topNav');
+                var submenu = $('.navbar-submenu');
+                if ($(window).scrollTop() > 100) {
+                    topo.addClass('navbar-opacity');
+                } else {
+                    if ($(window).scrollTop() <= 100) {
+                        topo.removeClass('navbar-opacity');
+                    }
+                }
+            });
+
+            $('.page-item,.nav-treeview .nav-item').click(function () {
+                $('.loader').show();
+            });
+
+            $(function () {
+                $('.popover').popover({
+                    container: 'body'
+                })
+            });
+        });
+    </script>
+    @await RenderSectionAsync("Scripts", required: false)
+</body>
+</html>

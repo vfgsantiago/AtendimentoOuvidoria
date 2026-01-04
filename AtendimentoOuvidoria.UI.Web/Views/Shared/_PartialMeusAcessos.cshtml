@@ -1,0 +1,133 @@
+﻿<aside class="app-sidebar bg-success shadow">
+    <div class="sidebar-brand">
+        <a href="#" class="brand-link">
+            <img src="logo.png" alt="Logo" class="brand-image" style="opacity: .8">
+            <span class="brand-text fw-light text-white">OUVIDORIA</span>
+        </a>
+    </div>
+    <div class="sidebar-wrapper overflow-hidden">
+        <div>
+            <nav class="mt-1">
+                <ul class="nav sidebar-menu flex-column" data-lte-toggle="treeview" role="menu" data-accordion="false">
+                    <li class="nav-item">
+                        <div href="#" class="nav-item">
+                            <a href="@Url.Action("Index", "Home")" class="nav-link">
+                                <i class="nav-icon fas fa-house-user text-white"></i>
+                                <p class="text-white">Home</p>
+                            </a>
+                        </div>
+                    </li>
+                    <li class="nav-item">
+                        <a href="#" class="nav-link">
+                            <i class="nav-icon fas fa-handshake text-white"></i>
+                            <p class="text-white">
+                                Atendimentos
+                                <i class="nav-arrow bi bi-chevron-right text-white"></i>
+                                <i class="nav-arrow fa fa-chevron-right text-white"></i>
+                            </p>
+                        </a>
+                        <ul class="nav nav-treeview">
+                            <li class="nav-item">
+                                <a href="@Url.Action("Index", "Agendamento")" class="nav-link">
+                                    <i class="nav-icon fas fa-check-circle text-light"></i>
+                                    <p class="text-light">Agendados</p>
+                                </a>
+                            </li>
+                            <li class="nav-item">
+                                <a href="@Url.Action("Pendente", "Atendimento")" class="nav-link">
+                                    <i class="nav-icon fas fa-hourglass-half text-light"></i>
+                                    <p class="text-light">Pendentes</p>
+                                </a>
+                            </li>
+                            <li class="nav-item">
+                                <a href="@Url.Action("Espontaneo", "Atendimento")" class="nav-link">
+                                    <i class="nav-icon fas fa-male text-light"></i>
+                                    <p class="text-light">Espontâneos</p>
+                                </a>
+                            </li>
+                            <li class="nav-item">
+                                <a href="@Url.Action("Realizado", "Atendimento")" class="nav-link">
+                                    <i class="nav-icon fas fa-calendar-check text-light"></i>
+                                    <p class="text-light">Realizados</p>
+                                </a>
+                            </li>
+                            <li class="nav-item">
+                                <a href="@Url.Action("Cancelado", "Atendimento")" class="nav-link">
+                                    <i class="nav-icon fas fa-calendar-times text-light"></i>
+                                    <p class="text-light">Cancelados</p>
+                                </a>
+                            </li>
+                        </ul>
+                    </li>
+                    <li class="nav-item">
+                        <a href="#" class="nav-link">
+                            <i class="nav-icon fas fa-calendar text-white"></i>
+                            <p class="text-white">
+                                Agenda
+                                <i class="nav-arrow bi bi-chevron-righttext-white"></i>
+                                <i class="nav-arrow fa fa-chevron-right text-white"></i>
+                            </p>
+                        </a>
+                        <ul class="nav nav-treeview">
+                            <li class="nav-item">
+                                <a href="@Url.Action("Semana", "DataHoraAgendamento")" class="nav-link">
+                                    <i class="nav-icon fas fa-calendar-week text-light"></i>
+                                    <p class="text-light">Semanal</p>
+                                </a>
+                            </li>
+                        </ul>
+                        <ul class="nav nav-treeview">
+                            <li class="nav-item">
+                                <a href="@Url.Action("CalendarioMensal", "DataHoraAgendamento")" class="nav-link">
+                                    <i class="nav-icon fas fa-calendar-alt text-light"></i>
+                                    <p class="text-light">Mensal</p>
+                                </a>
+                            </li>
+                        </ul>
+                        @if (User.IsInRole("Admin"))
+                        {
+                            <ul class="nav nav-treeview">
+                                <li class="nav-item">
+                                    <a href="@Url.Action("CadastrarSemana", "DataHoraAgendamento")" class="nav-link">
+                                        <i class="nav-icon fas fa-calendar-plus text-light"></i>
+                                        <p class="text-light">Cadastrar Datas</p>
+                                    </a>
+                                </li>
+                            </ul>
+                        }
+                    </li>
+                    <li class="nav-item">
+                        <div href="#" class="nav-item">
+                            <a href="@Url.Action("Index", "ConsultaProtocoloSac")" class="nav-link">
+                                <i class="nav-icon fas fa-search text-white"></i>
+                                <p class="text-white">Protocolo SAC</p>
+                            </a>
+                        </div>
+                    </li>
+                    @if (User.IsInRole("Admin"))
+                    {
+                        <hr />
+                        <li class="nav-item">
+                            <a href="#" class="nav-link">
+                                <i class="nav-icon fas fa-cog text-white"></i>
+                                <p class="text-white">
+                                    Configurações
+                                    <i class="nav-arrow bi bi-chevron-right text-white"></i>
+                                    <i class="nav-arrow fa fa-chevron-right text-white"></i>
+                                </p>
+                            </a>
+                            <ul class="nav nav-treeview">
+                                <li class="nav-item">
+                                    <a href="@Url.Action("Index", "MotivoAusenciaAtendimento")" class="nav-link">
+                                        <i class="nav-icon fas fa-exclamation-triangle text-yellow"></i>
+                                        <p class="text-light">Motivos de Ausência</p>
+                                    </a>
+                                </li>
+                            </ul>
+                        </li>
+                    }
+                </ul>
+            </nav>
+        </div>
+    </div>
+</aside> 

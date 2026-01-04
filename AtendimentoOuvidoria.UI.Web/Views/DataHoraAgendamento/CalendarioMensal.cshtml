@@ -1,0 +1,113 @@
+﻿@{
+    ViewData["Title"] = "Calendário Mensal";
+    var mes = (DateTime)ViewBag.Mes;
+    var dias = (Dictionary<DateTime, List<US.Intranet.AtendimentoOuvidoria.Model.DataHoraAgendamentoMOD>>)ViewBag.Dias;
+    var primeiroDia = new DateTime(mes.Year, mes.Month, 1);
+    var ultimoDia = primeiroDia.AddMonths(1).AddDays(-1);
+    var diaSemanaInicio = (int)primeiroDia.DayOfWeek;
+    if (diaSemanaInicio == 0) diaSemanaInicio = 7; // domingo como 7
+}
+
+<div class="d-flex justify-content-between align-items-center mb-4">
+    <h2 class="text-primary fw-bold">
+        <i class="fas fa-calendar-alt me-2"></i> @mes.ToString("MMMM yyyy", new System.Globalization.CultureInfo("pt-BR"))
+    </h2>
+    <div>
+        <a class="btn btn-primary me-2" href="@Url.Action("Semana", "DataHoraAgendamento")">
+            <i class="fas fa-calendar-week me-2"></i>Semanal
+        </a>
+        <a class="btn btn-outline-secondary me-2" href="@Url.Action("CalendarioMensal", new { ano = mes.AddMonths(-1).Year, mes = mes.AddMonths(-1).Month })">
+            <i class="fas fa-chevron-left"></i> Mês Anterior
+        </a>
+        <a class="btn btn-outline-primary me-2" href="@Url.Action("CalendarioMensal", new { ano = DateTime.Today.Year, mes = DateTime.Today.Month })">
+            Atual
+        </a>
+        <a class="btn btn-outline-secondary" href="@Url.Action("CalendarioMensal", new { ano = mes.AddMonths(1).Year, mes = mes.AddMonths(1).Month })">
+            Próximo Mês <i class="fas fa-chevron-right"></i>
+        </a>
+    </div>
+</div>
+
+<div class="table-responsive">
+    <table class="table table-bordered text-center align-middle">
+        <thead class="table-light">
+            <tr>
+                <th>Seg</th>
+                <th>Ter</th>
+                <th>Qua</th>
+                <th>Qui</th>
+                <th>Sex</th>
+                <th>Sáb</th>
+                <th>Dom</th>
+            </tr>
+        </thead>
+        <tbody>
+            @{
+                int dia = 1;
+                bool terminou = false;
+                for (int linha = 0; linha < 6 && !terminou; linha++)
+                {
+                    <tr>
+                        @for (int coluna = 1; coluna <= 7; coluna++)
+                        {
+                            if ((linha == 0 && coluna < diaSemanaInicio) || dia > ultimoDia.Day)
+                            {
+                                <td class="bg-light"></td>
+                            }
+                            else
+                            {
+                                DateTime dataAtual = new DateTime(mes.Year, mes.Month, dia);
+                                var Hoje = dataAtual.Date == DateTime.Today;
+                                <td class="p-2 @(Hoje ? "border border-3 border-warning" : "")" style="min-width: 120px;">
+
+                                    <div class="fw-semibold @(Hoje ? "text-yellow" : "")">@dataAtual.Day</div>
+                                    @if (dias.ContainsKey(dataAtual))
+                                    {
+                                        foreach (var horario in dias[dataAtual])
+                                        {
+                                            var cor = horario.SnDisponivel == "S" ? "success" : "danger";
+                                            @if (horario.SnTemAgendamento == "S")
+                                            {
+                                                <a href="#" class="badge bg-@cor mb-1 text-decoration-none"
+                                                   data-bs-toggle="modal"
+                                                   data-bs-target="#modalConsultaAgendamento_@horario.Agendamento.CdAgendamento"
+                                                   title="Ver Agendamento">
+                                                    @horario.DtDataHora.ToString("HH:mm")
+                                                    <i class="fas fa-address-book text-yellow shadow"></i>
+                                                </a>
+
+                                                @await Html.PartialAsync("_PartialModalConsultaAgendamento", horario.Agendamento)
+                                            }
+                                            else
+                                            {
+                                                <div class="badge bg-@cor mb-1">
+                                                    @horario.DtDataHora.ToString("HH:mm")
+                                                    @if (!string.IsNullOrWhiteSpace(horario.TxMotivoInativacao))
+                                                    {
+                                                        <a href="#" class="text-info ms-1"
+                                                           data-bs-toggle="modal"
+                                                           data-bs-target="#modalMotivo_@horario.CdDataHora"
+                                                           title="Ver motivo da inativação">
+                                                            <i class="fas fa-info-circle text-red"></i>
+                                                        </a>
+
+                                                        @await Html.PartialAsync("_PartialModalConsultaInativacao", horario)
+                                                    }
+                                                </div>
+                                            }
+                                        }
+                                    }
+                                </td>
+                                dia++;
+                                if (dia > ultimoDia.Day)
+                                {
+                                    terminou = true;
+                                }
+                            }
+                        }
+                    </tr>
+                }
+            }
+        </tbody>
+    </table>
+</div>

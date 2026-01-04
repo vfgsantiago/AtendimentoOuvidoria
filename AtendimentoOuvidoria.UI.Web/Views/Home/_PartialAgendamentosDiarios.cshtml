@@ -1,0 +1,39 @@
+﻿@model AgendamentoAtendimentoViewMOD
+
+<div class="card card-success card-outline mb-4">
+    <div class="card-header">
+        <div class="row">
+            <div class="col-6 text-start">
+                <h5 class="card-title"><i class="fas fa-calendar-alt me-2"></i>Agendamentos de Hoje</h5>
+            </div>
+            <div class="col-6 text-end">
+                <a class="btn btn-secondary text-white" href="@Url.Action("RegistrarAtendimentoEspontaneo", "Atendimento")"><span class="fas fa-user-plus me-2"></span>Atendimento Espontâneo</a>
+            </div>
+        </div>
+    </div>
+    <div class="card-body">
+        <ul class="list-group">
+            @if (Model.AgendamentosHoje.Any())
+            {
+                @foreach (var agendamento in Model.AgendamentosHoje)
+                {
+                    <li class="list-group-item d-flex justify-content-between align-items-center">
+                        <span>
+                            <strong>@agendamento.DtDataHora.ToString("dd/MM/yyyy 'às' HH:mm")</strong> - @agendamento.NoBeneficiario
+                        </span>
+                        <span>
+                            <a data-bs-toggle="modal" data-bs-target="#modalConsultaAgendamento_@agendamento.CdAgendamento" class="btn btn-sm btn-outline-secondary me-1" title="Consultar">
+                                <i class="fas fa-search fa-lg"></i>
+                            </a>
+                        </span>
+                    </li>
+                    @await Html.PartialAsync("_PartialModalConsultaAgendamento", agendamento)
+                }
+            }
+            else
+            {
+                <li class="list-group-item">Nenhum agendamento para hoje.</li>
+            }
+        </ul>
+    </div>
+</div>

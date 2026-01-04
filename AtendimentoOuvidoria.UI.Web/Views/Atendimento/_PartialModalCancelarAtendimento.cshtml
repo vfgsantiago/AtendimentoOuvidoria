@@ -1,0 +1,63 @@
+﻿@model US.Intranet.AtendimentoOuvidoria.Model.AgendamentoMOD
+
+@{
+    var listaMotivoAusencia = ViewData["listaMotivoAusencia"] as List<US.Intranet.AtendimentoOuvidoria.Model.MotivoAusenciaAtendimentoMOD>;
+}
+
+<div class="modal fade" id="modalCancelar-@Model.CdAgendamento" tabindex="-1" aria-labelledby="modalCancelarLabel-@Model.CdAgendamento" aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered modal-lg">
+        <div class="modal-content border-danger shadow">
+            <div class="modal-header bg-danger text-white">
+                <h5 class="modal-title" id="modalCancelarLabel-@Model.CdAgendamento">
+                    <i class="fas fa-times-circle me-2"></i>Cancelar Atendimento
+                </h5>
+                <button type="button" class="btn-close btn-close-white" data-bs-dismiss="modal" aria-label="Fechar"></button>
+            </div>
+            <form asp-action="CancelarAtendimento" method="post">
+                <div class="modal-body mx-4">
+                    <input type="hidden" name="CdAgendamento" value="@Model.CdAgendamento" />
+
+                    <div class="mb-4">
+                        <h6 class="text-primary mb-3"><i class="fas fa-question-circle me-2"></i>Motivo da Ausência</h6>
+                        <div class="row g-3">
+                            @foreach (var motivo in listaMotivoAusencia)
+                            {
+                                var inputId = $"motivo-{Model.CdAgendamento}-{motivo.CdMotivoAusencia}";
+                                <div class="col-md-6">
+                                    <input type="radio" class="btn-check" name="CdMotivoAusencia" id="@inputId" value="@motivo.CdMotivoAusencia" autocomplete="off" required>
+                                    <label class="btn w-100 text-start border shadow-sm" for="@inputId">
+                                        <div class="d-flex align-items-center p-2">
+                                            <span class="fw-semibold">@motivo.NoMotivo</span>
+                                        </div>
+                                    </label>
+                                </div>
+                            }
+                        </div>
+                    </div>
+
+                    <div class="mb-4">
+                        <h6 class="text-primary mb-3"><i class="fas fa-sticky-note me-2"></i>Observações</h6>
+                        <textarea class="form-control" name="TxDescricaoAtendimento" id="TxDescricaoAtendimento-@Model.CdAgendamento" rows="3" maxlength="3900"></textarea>
+                    </div>
+
+                    <div class="modal-footer">
+                        <button type="button" class="btn btn-outline-secondary" data-bs-dismiss="modal">
+                            <i class="fas fa-times me-1"></i>Fechar
+                        </button>
+                        <button type="submit" class="btn btn-danger">
+                            <i class="fas fa-ban me-1"></i>Confirmar Cancelamento
+                        </button>
+                    </div>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>
+
+<style>
+    .btn-check:checked + .btn {
+        background-color: #f8d7da;
+        border-width: 2px;
+        box-shadow: 0 0 0 0.2rem rgba(220, 53, 69, 0.25);
+    }
+</style>

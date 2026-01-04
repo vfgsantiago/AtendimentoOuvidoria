@@ -1,0 +1,154 @@
+﻿@using US.Intranet.AtendimentoOuvidoria.UI.Web.Models
+@model SemanaAgendaViewMOD
+@{
+    ViewData["Title"] = "Agenda Semanal";
+    var dataBase = (DateTime)ViewBag.DataBase;
+    var hoje = DateTime.Today;
+    var urlAgendamento = Url.Action("Agendamento", "Agendamento", new { cdAgendamento = UrlQueryStringEncryption.Encrypt($"{Model.Agendamento.CdAgendamento}") });
+}
+<div class="d-flex justify-content-between align-items-center mb-4">
+    <h2 class="text-primary fw-bold">
+        <i class="fas fa-calendar-week me-2"></i> Semana @Model.NumeroSemana
+    </h2>
+    <div>
+        <a class="btn btn-primary me-2" href="@Url.Action("CalendarioMensal", "DataHoraAgendamento")">
+            <i class="fas fa-calendar-alt me-2"></i>Mensal
+        </a>
+        <a class="btn btn-outline-secondary me-2" href="@Url.Action("Semana", new { data = dataBase.AddDays(-7).ToString("yyyy-MM-dd") })">
+            <i class="fas fa-chevron-left"></i> Semana Anterior
+        </a>
+        <a class="btn btn-outline-primary me-2" href="@Url.Action("Semana", new { data = DateTime.Today.ToString("yyyy-MM-dd") })">
+            Atual
+        </a>
+        <a class="btn btn-outline-secondary" href="@Url.Action("Semana", new { data = dataBase.AddDays(7).ToString("yyyy-MM-dd") })">
+            Próxima Semana <i class="fas fa-chevron-right"></i>
+        </a>
+    </div>
+</div>
+<form method="get" asp-action="Semana" class="mb-4">
+    <div class="input-group">
+        <input type="date" name="data" class="form-control" value="@dataBase.ToString("yyyy-MM-dd")" />
+        <button type="submit" class="btn btn-outline-primary">Buscar Semana</button>
+    </div>
+</form>
+<div class="d-flex flex-wrap gap-2 justify-content-start">
+    @foreach (var dia in Model.ListaDataHora.OrderBy(d => d.Key))
+    {
+        var Hoje = dia.Key.Date == hoje;
+        <div style="flex: 0 0 19%; min-width: 200px;">
+            <div class="card shadow-sm h-100 @(Hoje ? "border border-3 border-warning" : "border-0")">
+                <div class="card-header fw-semibold @(Hoje ? "bg-yellow text-white" : "bg-light")">
+                    @dia.Key.ToString("dddd, dd/MM", new System.Globalization.CultureInfo("pt-BR"))
+                </div>
+                <div class="card-body">
+                    @foreach (var horario in dia.Value)
+                    {
+                        var Disponivel = horario.SnDisponivel == "S";
+                        <div class="row">
+                            <div class="col-4 text-start">
+                                <span class="text-muted">@horario.DtDataHora.ToString("HH:mm")</span>
+                            </div>
+                            <div class="col-4 text-start">
+                                <span class="badge @(Disponivel ? "bg-success" : "bg-danger")">
+                                    @(Disponivel ? "Disponível" : "Indisponível")
+                                </span>
+                            </div>
+                            @if (User.IsInRole("Admin"))
+                            {
+                                <div class="col-2 text-end">
+                                    <div class="form-check form-switch ms-2">
+                                        <input class="form-check-input" type="checkbox"
+                                               onchange="alterarStatus(@horario.CdDataHora, this)"
+                                               data-temagendamento="@horario.SnTemAgendamento"
+                                        @(Disponivel ? "checked" : "") title="Alterar disponibilidade" />
+                                    </div>
+                                </div>
+                            }
+                            <div class="col-2 text-end">
+                                @if (horario.SnDisponivel == "N" && horario.SnTemAgendamento == "S")
+                                {
+                                    <a href="#" class="text-yellow" title="Ver Agendamento"
+                                       data-bs-toggle="modal" data-bs-target="#modalConsultaAgendamento_@horario.Agendamento.CdAgendamento">
+                                        <i class="fas fa-lg fa-address-book shadow"></i>
+                                    </a>
+                                    @await Html.PartialAsync("_PartialModalConsultaAgendamento", horario.Agendamento)
+                                }
+                                @if (!string.IsNullOrWhiteSpace(horario.TxMotivoInativacao))
+                                {
+                                    <a href="#" class="text-red" data-bs-toggle="modal" data-bs-target="#modalMotivo_@horario.CdDataHora" title="Ver motivo da inativação">
+                                        <i class="fas fa-info-circle"></i>
+                                    </a>
+                                    @await Html.PartialAsync("_PartialModalConsultaInativacao", horario)
+                                }
+                            </div>
+                        </div>
+                    }
+                </div>
+            </div>
+        </div>
+    }
+</div>
+@await Html.PartialAsync("_PartialModalConfirmacao", Model)
+<script>
+    let horarioParaAlterar = null;
+
+    function alterarStatus(cdDataHora, checkbox) {
+        const temAgendamento = checkbox.dataset.temagendamento === "S";
+        const estaAtivando = checkbox.checked;
+
+        horarioParaAlterar = { id: cdDataHora, checkbox: checkbox };
+
+        if (estaAtivando && temAgendamento) {
+            checkbox.checked = false;
+            $('#modalConfirmarAtivacao').modal('show');
+        } else if (!estaAtivando) {
+            $('#modalConfirmarInativacao').modal('show');
+        } else {
+            enviarAlteracao(cdDataHora, "", checkbox);
+        }
+    }
+
+    document.getElementById("btnConfirmarAtivacao").addEventListener("click", function () {
+        if (horarioParaAlterar) {
+            $('#modalConfirmarAtivacao').modal('hide');
+            horarioParaAlterar.checkbox.checked = true;
+            enviarAlteracao(horarioParaAlterar.id, "", horarioParaAlterar.checkbox);
+            horarioParaAlterar = null;
+        }
+    });
+
+    document.getElementById("btnConfirmarInativacao").addEventListener("click", function () {
+        const motivo = document.getElementById("motivoInativacao").value.trim();
+        if (!motivo) {
+            alert("Por favor, informe o motivo da inativação.");
+            return;
+        }
+
+        if (horarioParaAlterar) {
+            $('#modalConfirmarInativacao').modal('hide');
+            horarioParaAlterar.checkbox.checked = false;
+            enviarAlteracao(horarioParaAlterar.id, motivo, horarioParaAlterar.checkbox);
+            horarioParaAlterar = null;
+        }
+    });
+
+    function enviarAlteracao(cdDataHora, motivo, checkbox) {
+        $.ajax({
+            url: '@Url.Action("AlterarStatus", "DataHoraAgendamento")',
+            type: 'POST',
+            data: { cdDataHora: cdDataHora, motivo: motivo },
+            success: function () {
+                const badge = $(checkbox).closest('.row').find('.badge');
+                if (checkbox.checked) {
+                    badge.removeClass('bg-danger').addClass('bg-success').text('Disponível');
+                } else {
+                    badge.removeClass('bg-success').addClass('bg-danger').text('Indisponível');
+                }
+            },
+            error: function () {
+                alert('Erro ao alterar disponibilidade.');
+                checkbox.checked = !checkbox.checked;
+            }
+        });
+    }
+</script>

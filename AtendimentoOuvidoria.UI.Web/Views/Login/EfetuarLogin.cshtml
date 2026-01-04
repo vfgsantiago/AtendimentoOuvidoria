@@ -1,0 +1,66 @@
+﻿@model LoginViewMOD
+@{
+    ViewData["Title"] = "Login";
+    Layout = "~/Views/Shared/_LayoutLogin.cshtml";
+}
+<div class="row">
+    <div class="col-12 ">
+        <div class="login-box py-4 animate__animated animate__fadeInDownBig">
+            <div class="login-logo fw-bold text-primary">
+                <span class="fas fa-file-signature text-white animate__animated animate__infinite animate__pulse"></span>
+                <b class="text-white">Atendimentos</b><br />Ouvidoria
+            </div>
+            <div class="card shadow">
+                <div class="card-body login-card-body">
+                    <div class="card-header">
+                        <div class="card-img-top">
+                            <img class="img img-fluid" src="logo.png" alt="Logo">
+                        </div>
+                    </div>
+                    <div class=" card-body">
+                        <form asp-controller="Login" asp-action="EfetuarLogin" asp-route-returnurl="@ViewData["ReturnUrl"]" method="post" asp-antiforgery="true">
+                            <div class="mb-3">
+                                <label class="form-label" for="Login">Usuário</label>
+                                <div class="input-group">
+                                    <span class="input-group-text"><i class="fas fa-user"></i></span>
+                                    <input asp-for="Login" class="form-control" placeholder="Digite seu login" />
+                                </div>
+                                <span asp-validation-for="Login" class="text-danger small"></span>
+                            </div>
+
+                            <div class="mb-4">
+                                <label class="form-label" for="Password">Senha</label>
+                                <div class="input-group">
+                                    <span class="input-group-text"><i class="fas fa-lock"></i></span>
+                                    <input asp-for="Password" class="form-control" type="password" placeholder="Digite sua senha" />
+                                </div>
+                                <span asp-validation-for="Password" class="text-danger small"></span>
+                            </div>
+
+                            <div class="d-grid">
+                                <button type="submit" class="btn btn-primary btn-lg rounded-pill">Entrar</button>
+                            </div>
+                        </form>
+                    </div>
+                    <div class="card-footer text-center">
+                        <div class="row">
+                            <div class="col-12">
+                                <h6 class="mb-0">
+                                    <span class="fa fa-exclamation-circle pr-1"></span>Dúvidas?
+                                </h6>
+                            </div>
+                            <div class="col-12 mt-2">
+                                <div>
+                                    <span>
+                                        É seu primeiro acesso ou está com dificuldades no acesso?
+                                        Contate o <b>suporte técnico</b>.
+                                    </span>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

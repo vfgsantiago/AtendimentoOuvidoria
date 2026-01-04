@@ -1,0 +1,39 @@
+﻿@model AgendamentoAtendimentoViewMOD
+
+@{
+    Layout = "~/Views/Shared/_Layout.cshtml";
+    ViewData["Title"] = "Home page";
+}
+
+<div class="row mb-4">
+    <div class="col-8 text-start">
+        <h1 class="display-6">Bem-vindo ao sistema da Ouvidoria</h1>
+    </div>
+    <div class="col-4 text-end">
+        <button id="btnReloadIndicadores" class="btn btn-success text-white">
+            <i class="fas fa-sync-alt"></i>
+        </button>
+    </div>
+</div>
+<div id="indicadores">
+    @await Html.PartialAsync("_PartialDadosAtendimentos", Model)
+</div>
+<div id="agendamentos">
+    @await Html.PartialAsync("_PartialAgendamentosDiarios", Model)
+</div>
+<script>
+    $(document).ready(function () {
+        $('#btnReloadIndicadores').click(function () {
+            $.get('@Url.Action("RecarregarIndicadores", "Home")', function (data) {
+                $('#indicadores').html(data);
+            });
+
+            $.get('@Url.Action("RecarregarAgendamentos", "Home")', function (data) {
+                $('#agendamentos').html(data);
+            });
+        });
+    });
+</script>
+
+
+

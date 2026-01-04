@@ -1,0 +1,108 @@
+﻿@model AtendimentoMOD
+
+<div class="modal fade" id="modalConsultaAtendimentoEspontaneo_@Model.CdAtendimento" tabindex="-1" aria-labelledby="modalConsultaAtendimentoEspontaneo_@Model.CdAtendimento" aria-hidden="true">
+    <div class="modal-dialog modal-dialog-scrollable modal-lg">
+        <div class="modal-content border-0 shadow">
+            <div class="modal-header bg-secondary text-white">
+                <h5 class="modal-title">
+                    <i class="fas fa-comments me-2"></i> Atendimento Espontâneo
+                </h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Fechar"></button>
+            </div>
+            <div class="modal-body mx-4">
+                <div class="mb-4">
+                    <h6 class="text-primary mb-3"><i class="fas fa-user me-2"></i>Dados do Beneficiário</h6>
+                    <div class="row g-3">
+                        <div class="col-md-12">
+                            <strong>Intercâmbio:</strong><br />
+                            @Html.Raw(Model.SnIntercambio == "S"
+                                                        ? "<span class='text-success fw-bold'>Sim</span>"
+                                                        : "<span class='text-danger fw-bold'>Não</span>")
+                        </div>
+                        <div class="col-md-6"><strong>Nome:</strong><br />@Model.NoBeneficiario</div>
+                        <div class="col-md-6"><strong>CPF:</strong><br />@(Model.NrCpf != null ? Model.NrCpf : "N/I")</div>
+                        <div class="col-md-6"><strong>E-mail:</strong><br />@(Model.TxEmail != null ? Model.TxEmail : "N/I")</div>
+                        <div class="col-md-6"><strong>Telefone:</strong><br />@(Model.TxTelefone != null ? Model.TxTelefone : "N/I")</div>
+                    </div>
+                </div>
+                <hr />
+                <div class="mb-4">
+                    <h6 class="text-primary mb-3"><i class="fas fa-clock me-2"></i>Informações do Atendimento</h6>
+                    <div class="row g-3">
+                        <div class="col-md-4">
+                            <strong>Data do Atendimento:</strong><br />
+                            @Model.DtPreenchimento.ToString("dd/MM/yyyy HH:mm")
+                        </div>
+                        @if (Model.TxMotivoHumor != null)
+                        {
+                            <div class="col-md-8">
+                                <strong>Motivo:</strong><br />
+                                @((Model.TxMotivoAgendamento != null) ? (Html.Raw(Model.TxMotivoAgendamento.Replace("\r\n", "<br />").Replace("\n", "<br />"))) : "N/I")
+                            </div>
+                        }
+                    </div>
+                </div>
+                <hr />
+                <div class="mb-4">
+                    <h6 class="text-primary mb-3"><i class="fas fa-info-circle me-2"></i>Informações do Atendimento</h6>
+                    <div class="row g-3">
+                        <div class="col-md-12"><strong>Descrição:</strong><br />@Html.Raw(Model.TxDescricaoAtendimento?.Replace("\r\n", "<br />").Replace("\n", "<br />"))</div>
+                        <div class="col-md-4">
+                            <strong>Humor do Beneficiário:</strong><br />
+                            <div class="d-flex align-items-center p-2">
+                                <i class="fas @Model.TxIcone fs-3 me-3 @Model.TxCor"></i>
+                                <span class="fw-semibold @Model.TxCor">@Model.TxHumor</span>
+                            </div>
+                        </div>
+                        <div class="col-md-8"><strong>Motivo do Humor:</strong><br />@Html.Raw(Model.TxMotivoHumor.Replace("\r\n", "<br />").Replace("\n", "<br />"))</div>
+                    </div>
+                </div>
+                <hr />
+                <div class="mb-4">
+                    <h6 class="text-primary mb-3"><i class="fas fa-exclamation-circle me-2"></i>Pendências e Indicadores</h6>
+                    <div class="row g-3">
+                        <div class="col-md-3">
+                            <strong>Possível Processo:</strong><br />
+                            @Html.Raw(Model.SnPossivelProcesso == "S"
+                                     ? "<span class='text-success fw-bold'>Sim</span>"
+                                     : "<span class='text-danger fw-bold'>Não</span>")
+                        </div>
+                        <div class="col-md-3">
+                            <strong>Possível Churn:</strong><br />
+                            @Html.Raw(Model.SnPossivelChurn == "S"
+                                     ? "<span class='text-success fw-bold'>Sim</span>"
+                                     : "<span class='text-danger fw-bold'>Não</span>")
+                        </div>
+                        <div class="col-md-3">
+                            <strong>Experiência Revertida:</strong><br />
+                            @Html.Raw(Model.SnReversaoExperiencia == "S"
+                                     ? "<span class='text-success fw-bold'>Sim</span>"
+                                     : "<span class='text-danger fw-bold'>Não</span>")
+                        </div>
+                        <div class="col-md-3">
+                            <strong>Existe Pendência:</strong><br />
+                            @Html.Raw(Model.SnExistePendencia == "S"
+                                     ? "<span class='text-success fw-bold'>Sim</span>"
+                                     : "<span class='text-danger fw-bold'>Não</span>")
+                        </div>
+                        @if (Model.SnExistePendencia == "S")
+                        {
+                            <div class="col-md-12">
+                                <strong>Descrição da Pendência:</strong><br />
+                                @Html.Raw(Model.TxDescricaoPendencia.Replace("\r\n", "<br />").Replace("\n", "<br />"))
+                            </div>
+                        }
+                    </div>
+                </div>
+                <hr />
+                <div class="mb-4">
+                    <h6 class="text-primary mb-3"><i class="fas fa-user-check me-2"></i>Responsável</h6>
+                    <div class="row g-3">
+                        <div><strong>Responsável pelo Atendimento:</strong><br />@Model.NoUsuario</div>
+                        <div class="col-md-12"><strong>Data do Preenchimento:</strong><br />@Model.DtPreenchimento.ToString("dd/MM/yyyy HH:mm")</div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

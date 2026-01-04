@@ -1,0 +1,103 @@
+﻿@model ConsultaProtocoloSacMOD
+
+@{
+    ViewData["Title"] = "Consulta de Protocolo SAC";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+    var bgColor = Model.ProtocoloValido ? "bg-success" : "bg-red";
+    var txtColor = Model.ProtocoloValido ? "text-success" : "text-red";
+}
+
+<div class="container mt-5">
+    <div class="d-flex align-items-center mb-4">
+        <i class="fas fa-search fa-2x text-success me-2"></i>
+        <h2 class="mb-0">Consulta de Protocolo SAC</h2>
+    </div>
+
+    @using (Html.BeginForm("Consultar", "ConsultaProtocoloSac", FormMethod.Post))
+    {
+        <div class="card shadow-sm mb-4">
+            <div class="card-body">
+                <div class="row justify-content-center">
+                    <div class="col-md-11">
+                        @Html.Label("nrProtocoloSac", "Número do Protocolo", new { @class = "form-label fw-bold" })
+                        <div class="input-group input-group-lg">
+                            <span class="input-group-text"><i class="fas fa-hashtag"></i></span>
+                            <input type="text" name="nrProtocoloSac" class="form-control" placeholder="Digite o número do protocolo..." />
+                            <button type="submit" class="btn btn-success">
+                                <i class="fas fa-search me-1"></i> Consultar
+                            </button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    }
+
+    @if (!ViewData.ModelState.IsValid)
+    {
+        <div class="alert alert-danger">
+            @foreach (var error in ViewData.ModelState.Values.SelectMany(v => v.Errors))
+            {
+                <p class="mb-0">@error.ErrorMessage</p>
+            }
+        </div>
+    }
+
+    @if (Model != null && !string.IsNullOrEmpty(Model.NrProtocoloAns))
+    {
+        <div class="card shadow-sm">
+            <div class="card-header bg-light d-flex justify-content-between align-items-center">
+                <h5 class="mb-0">Informações do Protocolo</h5>
+                <span class="badge @bgColor fs-6">
+                    @(Model.ProtocoloValido ? "VÁLIDO PARA AGENDAMENTO PRESENCIAL" : "INVÁLIDO PARA AGENDAMENTO PRESENCIAL")
+                </span>
+            </div>
+            <div class="card-body">
+                <div class="mb-4">
+                    <h6 class="text-uppercase @txtColor"><span class="fas fa-hashtag me-2"></span>Códigos</h6>
+                    <dl class="row mb-0">
+                        <dt class="col-sm-4">Código Atendimento Call Center</dt>
+                        <dd class="col-sm-8">@Model.CdAtendCallCenter</dd>
+
+                        <dt class="col-sm-4">Protocolo ANS</dt>
+                        <dd class="col-sm-8">@Model.NrProtocoloAns</dd>
+                    </dl>
+                </div>
+                <div class="mb-4">
+                    <h6 class="text-uppercase @txtColor"><span class="fas fa-calendar me-2"></span>Datas</h6>
+                    <dl class="row mb-0">
+                        <dt class="col-sm-4">Data de Abertura</dt>
+                        <dd class="col-sm-8">@Model.DtInicio.ToString("dd/MM/yyyy HH:mm")</dd>
+
+                        <dt class="col-sm-4">Data de Término</dt>
+                        <dd class="col-sm-8">
+                            @(Model.DtTermino.HasValue
+                                ? Model.DtTermino?.ToString("dd/MM/yyyy HH:mm")
+                                : "Não Finalizado")
+                        </dd>
+                    </dl>
+                </div>
+                <div>
+                    <h6 class="text-uppercase @txtColor"><span class="fas fa-comments me-2"></span>Detalhes</h6>
+                    <dl class="row mb-0">
+                        <dt class="col-sm-4">Detalhes do Atendimento</dt>
+                        <dd class="col-sm-8">@Model.DsDetalheAtendimento</dd>
+                    </dl>
+                </div>
+            </div>
+        </div>
+    }
+
+    <div class="mt-4 row">
+        <div class="col-6 text-start">
+            <a href="@Url.Action("Index", "Home")" class="btn btn-secondary text-white">
+                <i class="fas fa-chevron-left me-1"></i> Voltar ao Início
+            </a>
+        </div>
+        <div class="col-6 text-end">
+            <a href="@Url.Action("Index")" class="btn btn-outline-secondary">
+                <i class="fas fa-times me-1"></i> Limpar
+            </a>
+        </div>
+    </div>
+</div>

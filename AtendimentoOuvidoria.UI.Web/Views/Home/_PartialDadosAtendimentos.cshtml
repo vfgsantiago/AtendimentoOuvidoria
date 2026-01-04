@@ -1,0 +1,75 @@
+﻿@model AgendamentoAtendimentoViewMOD
+
+
+<div class="row g-3 mb-3">
+    <div class="col-xl-6 col-lg-6 col-md-6 col-sm-6">
+        <div class="small-box bg-success">
+            <div class="inner">
+                <h3>@Model.TotalAgendados</h3>
+                <p>Agendados</p>
+            </div>
+            <div class="icon">
+                <i class="fas fa-check-circle"></i>
+            </div>
+            <a href="@Url.Action("Index", "Agendamento")" class="small-box-footer">
+                ver detalhes <i class="fas fa-arrow-circle-right"></i>
+            </a>
+        </div>
+    </div>
+    <div class="col-xl-6 col-lg-6 col-md-6 col-sm-6">
+        <div class="small-box bg-secondary">
+            <div class="inner">
+                <h3>@Model.TotalEspontaneos</h3>
+                <p>Espontâneos</p>
+            </div>
+            <div class="icon">
+                <i class="fas fa-male"></i>
+            </div>
+            <a href="@Url.Action("Espontaneo", "Atendimento")" class="small-box-footer">
+                ver detalhes <i class="fas fa-arrow-circle-right"></i>
+            </a>
+        </div>
+    </div>
+    <div class="col-xl-4 col-lg-4 col-md-6 col-sm-6">
+        <div class="small-box bg-yellow">
+            <div class="inner">
+                <h3 class="text-white">@Model.TotalPendentes</h3>
+                <p class="text-white">Pendentes</p>
+            </div>
+            <div class="icon">
+                <i class="fas fa-hourglass-half"></i>
+            </div>
+            <a href="@Url.Action("Pendente", "Atendimento")" class="small-box-footer">
+                <span class="text-white">ver detalhes <i class="fas fa-arrow-circle-right text-white"></i></span>
+            </a>
+        </div>
+    </div>
+    <div class="col-xl-4 col-lg-4 col-md-6 col-sm-6">
+        <div class="small-box bg-primary">
+            <div class="inner">
+                <h3>@Model.TotalRealizados</h3>
+                <p>Realizados</p>
+            </div>
+            <div class="icon">
+                <i class="fas fa-calendar-check"></i>
+            </div>
+            <a href="@Url.Action("Realizado", "Atendimento")" class="small-box-footer">
+                ver detalhes <i class="fas fa-arrow-circle-right"></i>
+            </a>
+        </div>
+    </div>
+    <div class="col-xl-4 col-lg-4 col-md-6 col-sm-6">
+        <div class="small-box bg-red">
+            <div class="inner">
+                <h3>@Model.TotalCancelados</h3>
+                <p>Cancelados</p>
+            </div>
+            <div class="icon">
+                <i class="fas fa-calendar-times"></i>
+            </div>
+            <a href="@Url.Action("Cancelado", "Atendimento")" class="small-box-footer">
+                ver detalhes <i class="fas fa-arrow-circle-right"></i>
+            </a>
+        </div>
+    </div>
+</div>

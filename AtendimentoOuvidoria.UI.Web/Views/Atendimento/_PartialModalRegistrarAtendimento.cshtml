@@ -1,0 +1,116 @@
+﻿@model US.Intranet.AtendimentoOuvidoria.Model.AgendamentoMOD
+
+@{
+    var listaHumor = ViewData["listaHumor"] as List<US.Intranet.AtendimentoOuvidoria.Model.HumorAtendimentoMOD>;
+}
+
+<div class="modal fade" id="modalRegistrar-@Model.CdAgendamento" tabindex="-1" aria-labelledby="modalRegistrarLabel-@Model.CdAgendamento" aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered modal-lg">
+        <div class="modal-content border-success shadow">
+            <div class="modal-header bg-success text-white">
+                <h5 class="modal-title" id="modalRegistrarLabel-@Model.CdAgendamento">
+                    <i class="fas fa-check-circle me-2"></i>Registrar Atendimento
+                </h5>
+                <button type="button" class="btn-close btn-close-white" data-bs-dismiss="modal" aria-label="Fechar"></button>
+            </div>
+            <form asp-action="RegistrarAtendimentoAgendado" method="post">
+                <div class="modal-body mx-4">
+                    <input type="hidden" name="CdAgendamento" value="@Model.CdAgendamento" />
+                    <div class="mb-4">
+                        <h6 class="text-primary mb-3"><i class="fas fa-smile me-2"></i>Humor do Beneficiário</h6>
+                        <div class="row mb-3">
+                            @foreach (var humor in listaHumor)
+                            {
+                                var humorId = $"humor-{Model.CdAgendamento}-{humor.CdHumor}";
+                                <div class="col-3">
+                                    <input type="radio" class="btn-check" name="CdHumor" id="@humorId" value="@humor.CdHumor" autocomplete="off" required>
+                                    <label class="btn w-100 text-start border shadow-sm rounded humor-card" for="@humorId">
+                                        <div class="d-flex align-items-center p-2">
+                                            <i class="fas @humor.TxIcone fs-3 me-3 @humor.TxCor"></i>
+                                            <span class="fw-semibold @humor.TxCor">@humor.TxHumor</span>
+                                        </div>
+                                    </label>
+                                </div>
+                            }
+                        </div>
+                        <div class="mb-3">
+                            <label for="TxMotivoHumor-@Model.CdAgendamento" class="form-label fw-semibold">Motivo do Humor</label>
+                            <textarea class="form-control" name="TxMotivoHumor" id="TxMotivoHumor-@Model.CdAgendamento" rows="3" maxlength="900" placeholder="Descreva o motivo do humor" required = "required"></textarea>
+                        </div>
+                    </div>
+                    <div class="mb-4">
+                        <h6 class="text-primary mb-3"><i class="fas fa-comment-dots me-2"></i>Descrição do Atendimento</h6>
+                        <textarea class="form-control" name="TxDescricaoAtendimento" id="TxDescricaoAtendimento-@Model.CdAgendamento" rows="5" maxlength="3900" required></textarea>
+                    </div>
+                    <div class="mb-4">
+                        <h6 class="text-primary mb-3"><i class="fas fa-check-double me-2"></i>Indicadores</h6>
+                        <div class="row">
+                            @foreach (var campo in new[] {
+                            new { Id = "SnPossivelProcesso", Label = "Possível Processo" },
+                            new { Id = "SnPossivelChurn", Label = "Possível Churn" },
+                            new { Id = "SnReversaoExperiencia", Label = "Reversão de Experiência" }
+                            })
+                            {
+                                <div class="col-md-4 mb-3">
+                                    <label class="form-label fw-semibold">@campo.Label</label>
+                                    <div class="d-flex gap-2">
+                                        <input type="radio" class="btn-check" name="@campo.Id" id="@campo.Id-nao-@Model.CdAgendamento" value="N" checked>
+                                        <label class="btn btn-sm btn-outline-danger rounded-pill" for="@campo.Id-nao-@Model.CdAgendamento">Não</label>
+                                        <input type="radio" class="btn-check" name="@campo.Id" id="@campo.Id-sim-@Model.CdAgendamento" value="S">
+                                        <label class="btn btn-sm btn-outline-success rounded-pill" for="@campo.Id-sim-@Model.CdAgendamento">Sim</label>
+                                    </div>
+                                </div>
+                            }
+                        </div>
+                    </div>
+                    <div class="mb-4">
+                        <h6 class="text-primary mb-3"><i class="fas fa-exclamation-circle me-2"></i>Pendências</h6>
+                        <div class="mb-3">
+                            <label class="form-label fw-semibold">Existe Pendência?</label>
+                            <div class="d-flex gap-2">
+                                <input type="radio" class="btn-check" name="SnExistePendencia" id="pendencia-nao-@Model.CdAgendamento" value="N" checked>
+                                <label class="btn btn-sm btn-outline-danger rounded-pill" for="pendencia-nao-@Model.CdAgendamento">Não</label>
+                                <input type="radio" class="btn-check" name="SnExistePendencia" id="pendencia-sim-@Model.CdAgendamento" value="S">
+                                <label class="btn btn-sm btn-outline-success rounded-pill" for="pendencia-sim-@Model.CdAgendamento">Sim</label>
+                            </div>
+                        </div>
+                        <div class="mb-3">
+                            <label for="TxDescricaoPendencia-@Model.CdAgendamento" class="form-label fw-semibold">Descrição da Pendência</label>
+                            <textarea class="form-control" name="TxDescricaoPendencia" id="TxDescricaoPendencia-@Model.CdAgendamento" rows="4" maxlength="3900"></textarea>
+                        </div>
+                    </div>
+                    <div class="modal-footer">
+                        <button type="button" class="btn btn-outline-secondary" data-bs-dismiss="modal">
+                            <i class="fas fa-times me-1"></i>Cancelar
+                        </button>
+                        <button type="submit" class="btn btn-success">
+                            <i class="fas fa-save me-1"></i>Salvar
+                        </button>
+                    </div>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>
+
+<style>
+    .btn-check:checked + .btn-outline-success {
+        background-color: #d1e7dd;
+        border-color: #198754;
+        color: #198754;
+        font-weight: bold;
+    }
+
+    .btn-check:checked + .btn-outline-danger {
+        background-color: #f8d7da;
+        border-color: #dc3545;
+        color: #dc3545;
+        font-weight: bold;
+    }
+
+    .btn-check:checked + .humor-card {
+        border-width: 2px;
+        box-shadow: 0 0 0 0.2rem rgba(25, 135, 84, 0.25);
+        background-color: #198754;
+    }
+</style>

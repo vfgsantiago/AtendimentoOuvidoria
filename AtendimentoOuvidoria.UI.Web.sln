@@ -1,0 +1,55 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio Version 17
+VisualStudioVersion = 17.13.35913.81 d17.13
+MinimumVisualStudioVersion = 10.0.40219.1
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Telas", "Telas", "{02EA681E-C7D8-13C7-8484-4AC65E1B71E8}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Armazenamento de Dados", "Armazenamento de Dados", "{369CB01D-A1A7-72D2-AABC-3F0945D148A2}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Banco", "Banco", "{916057E6-BC37-43FC-B165-FA06D96D1FF6}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "AtendimentoOuvidoria.Model", "AtendimentoOuvidoria.Model\AtendimentoOuvidoria.Model.csproj", "{F47616CB-4BA5-4818-A81D-0CCBB1C66F16}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "AtendimentoOuvidoria.Data", "AtendimentoOuvidoria.Data\AtendimentoOuvidoria.Data.csproj", "{2E4EC890-28D3-4A28-A394-70C5EBFFC865}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "AtendimentoOuvidoria.Repository", "AtendimentoOuvidoria.Repository\AtendimentoOuvidoria.Repository.csproj", "{D7004954-4BCB-4E72-B26F-9F377D23C3D6}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "AtendimentoOuvidoria.UI.Web", "AtendimentoOuvidoria.UI.Web\AtendimentoOuvidoria.UI.Web.csproj", "{D5A07F64-571E-4E11-8B09-3B877B32A60F}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Release|Any CPU = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{F47616CB-4BA5-4818-A81D-0CCBB1C66F16}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{F47616CB-4BA5-4818-A81D-0CCBB1C66F16}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{F47616CB-4BA5-4818-A81D-0CCBB1C66F16}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{F47616CB-4BA5-4818-A81D-0CCBB1C66F16}.Release|Any CPU.Build.0 = Release|Any CPU
+		{2E4EC890-28D3-4A28-A394-70C5EBFFC865}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{2E4EC890-28D3-4A28-A394-70C5EBFFC865}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{2E4EC890-28D3-4A28-A394-70C5EBFFC865}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{2E4EC890-28D3-4A28-A394-70C5EBFFC865}.Release|Any CPU.Build.0 = Release|Any CPU
+		{D7004954-4BCB-4E72-B26F-9F377D23C3D6}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{D7004954-4BCB-4E72-B26F-9F377D23C3D6}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{D7004954-4BCB-4E72-B26F-9F377D23C3D6}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{D7004954-4BCB-4E72-B26F-9F377D23C3D6}.Release|Any CPU.Build.0 = Release|Any CPU
+		{D5A07F64-571E-4E11-8B09-3B877B32A60F}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{D5A07F64-571E-4E11-8B09-3B877B32A60F}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{D5A07F64-571E-4E11-8B09-3B877B32A60F}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{D5A07F64-571E-4E11-8B09-3B877B32A60F}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(NestedProjects) = preSolution
+		{F47616CB-4BA5-4818-A81D-0CCBB1C66F16} = {369CB01D-A1A7-72D2-AABC-3F0945D148A2}
+		{2E4EC890-28D3-4A28-A394-70C5EBFFC865} = {916057E6-BC37-43FC-B165-FA06D96D1FF6}
+		{D7004954-4BCB-4E72-B26F-9F377D23C3D6} = {916057E6-BC37-43FC-B165-FA06D96D1FF6}
+		{D5A07F64-571E-4E11-8B09-3B877B32A60F} = {02EA681E-C7D8-13C7-8484-4AC65E1B71E8}
+	EndGlobalSection
+	GlobalSection(ExtensibilityGlobals) = postSolution
+		SolutionGuid = {911E0600-DEEB-4FA9-B435-F2EA11D9014D}
+	EndGlobalSection
+EndGlobal
